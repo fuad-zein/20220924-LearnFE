@@ -1,0 +1,27 @@
+/* *{
+  border: 2px solid #ddd;
+  padding: 15px;
+  margin: 15px;
+}
+
+html{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  max-width: 650px;
+  margin: 20px auto;
+}
+
+.list:nth-child(4)  {
+  background-color: aqua;
+}
+
+section#a p{
+  background-color: greenyellow;
+}
+
+#a:nth-child(3){
+  background-color: red;
+} */
