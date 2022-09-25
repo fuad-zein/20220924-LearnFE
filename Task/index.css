@@ -6,6 +6,7 @@ html {
 body {
   margin: 15px;
   padding: 15px;
-  font-family: 'EB Garamond', serif !important;
+  /* font-family: 'EB Garamond', serif !important; */
+  font-family: 'EB Garamond', serif;
   /* border: 2px solid #ddd; */
 }

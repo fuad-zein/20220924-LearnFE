@@ -1,11 +1,15 @@
 const colors = [
   {
+    primaryColor: "#6C757D",
+    secondaryColor: "#E9ECEF",
+  },
+  {
     primaryColor: "#5D93E1",
     secondaryColor: "#ECF3FC",
   },
   {
-    primaryColor: "#F9D288",
-    secondaryColor: "#FEFAF1",
+    primaryColor: "#F27C1A",
+    secondaryColor: "#FCE5D0",
   },
   {
     primaryColor: "#5DC250",
@@ -21,8 +25,6 @@ const colors = [
   },
 ];
 
-const baseUrl = "https://pokeapi.co/api/v2/pokemon/";
-
 // Capitalize Text
 String.prototype.initCap = function () {
   return this.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
@@ -30,38 +32,49 @@ String.prototype.initCap = function () {
   });
 };
 
-// Fetch All Pokemon
-fetch(baseUrl)
-  .then(function (res) {
-    res.json().then(function (data) {
-      // console.log(data.results);
-      const pokemons = data.results;
-      pokemons.forEach((pokemon) => {
-        document.getElementById("card").insertAdjacentHTML(
-          "beforeend",
-          `<div class="card m-2" style="width: 13rem; height: 9rem; border-color: #5D93E1; border-width: 2px; background-color: #ECF3FC;">
-            <img src="${fetch(pokemon.url).then(function (res) {
-              res.json().then(function (image) {
-                image.sprites.front_default;
-              });
-            })}" class="card-img-top mt-4" id="img" alt="pokemon">
-            <div class="card-body text-center">
-              <h5 class="fw-bold fs-6 mt-2">${pokemon.name.initCap()}</h5>
-            </div>
-          </div>`
-        );
-      });
-    });
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
+const cardContainer = document.getElementById("card");
+const limitPokemon = 24;
 
-function fetchPokemonData(pokemon) {
-  let url = pokemon.url;
-  fetch(url)
-    .then((res) => res.json())
-    .then(function (pokeData) {
-      renderPokemon(pokeData);
-    });
+const fetchPokemons = async () => {
+  for (let i = 1; i <= limitPokemon; i++) {
+    await getPokemon(i);
+  }
+};
+
+const getPokemon = async (id) => {
+  const baseUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  const res = await fetch(baseUrl);
+  const pokemon = await res.json();
+  createCard(pokemon);
+};
+
+function createCard(pokemon) {
+  const pokemonElm = document.createElement("div");
+  pokemonElm.className = "card m-2 justify-content-center";
+  pokemonElm.style = `width: 10rem; height: 10rem; border-color: ${
+    colors[pokemon.id % 6].primaryColor
+  }; border-width: 4px; background-color: ${
+    colors[pokemon.id % 6].secondaryColor
+  };`;
+  pokemonElm.classList.add("pokemon");
+
+  const pokeInnerHTML = `
+      <img src="${
+        pokemon.sprites.other.home.front_default
+      }" class="card-img-top mt-4 w-50 align-self-center" id="img" alt="pokemon">
+      <div class="card-body text-center">
+        <h5 class="card-title fw-bold fs-6" style="color:${
+          colors[pokemon.id % 6].primaryColor
+        }">${pokemon.id}. ${pokemon.name.initCap()}</h5>
+        <small class="card-subtitle text-center" style="color:${
+          colors[pokemon.id % 6].primaryColor
+        }"; font-size: 5px; font-family: Arial, Helvetica, sans-serif;>Type: <span>${pokemon.types[0].type.name.initCap()}</span> </small>
+      </div>
+  `;
+
+  pokemonElm.innerHTML = pokeInnerHTML;
+
+  cardContainer.appendChild(pokemonElm);
 }
+
+fetchPokemons();
