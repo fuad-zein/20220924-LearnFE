@@ -1,3 +1,5 @@
+// import * as bootstrap from "bootstrap";
+
 const colors = [
   {
     primaryColor: "#6C757D",
@@ -49,26 +51,33 @@ const getPokemon = async (id) => {
 };
 
 function createCard(pokemon) {
-  const pokemonElm = document.createElement("div");
-  pokemonElm.className = "card m-2 justify-content-center";
+  const pokemonElm = document.createElement("button");
+  pokemonElm.className = "m-2 justify-content-center";
   pokemonElm.style = `width: 10rem; height: 10rem; border-color: ${
     colors[pokemon.id % 6].primaryColor
   }; border-width: 4px; background-color: ${
     colors[pokemon.id % 6].secondaryColor
   };`;
+  pokemonElm.type = "button";
+  // pokemonElm.onclick = showModal;
   pokemonElm.classList.add("pokemon");
 
   const pokeInnerHTML = `
-      <img src="${
-        pokemon.sprites.other.home.front_default
-      }" class="card-img-top mt-4 w-50 align-self-center" id="img" alt="pokemon">
-      <div class="card-body text-center">
-        <h5 class="card-title fw-bold fs-6" style="color:${
-          colors[pokemon.id % 6].primaryColor
-        }">${pokemon.id}. ${pokemon.name.initCap()}</h5>
-        <small class="card-subtitle text-center" style="color:${
-          colors[pokemon.id % 6].primaryColor
-        }"; font-size: 5px; font-family: Arial, Helvetica, sans-serif;>Type: <span>${pokemon.types[0].type.name.initCap()}</span> </small>
+      <div class="p-2">
+        <img src="${
+          pokemon.sprites.other.home.front_default
+        }" class="w-75 align-self-center" id="img" alt="pokemon">
+        <div class="justify-content-center text-center center">
+          <h5 class="fw-bold fs-6 text-center mt-1" style="color:${
+            colors[pokemon.id % 6].primaryColor
+          }">${pokemon.name.initCap()}</h5>
+          <small class="text-center" style="color:${
+            colors[pokemon.id % 6].primaryColor
+          }";>Type: <span>${pokemon.types[0].type.name.initCap()}</span> </small>
+          <p>${pokemon.abilities.map((x) => {
+            return x.ability.name;
+          })}</p>
+          </div>
       </div>
   `;
 
@@ -78,3 +87,37 @@ function createCard(pokemon) {
 }
 
 fetchPokemons();
+
+// let modalWrap = null;
+// const showModal = () => {
+//   if (modalWrap !== null) {
+//     modalWrap.remove();
+//   }
+//   modalWrap = document.createElement("div");
+
+//   const modalInnerHTML = `
+//   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+//     <div class="modal-dialog">
+//       <div class="modal-content">
+//         <div class="modal-header">
+//           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+//           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//         </div>
+//         <div class="modal-body">
+//           ...
+//         </div>
+//         <div class="modal-footer">
+//           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//           <button type="button" class="btn btn-primary">Save changes</button>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+//   `;
+
+//   modalWrap.innerHTML = modalInnerHTML;
+//   document.body.append(modalWrap);
+
+//   let modal = new bootstrap.Modal(modalWrap.querySelector(".modal"));
+//   modal.show();
+// };
