@@ -51,45 +51,104 @@ const getPokemon = async (id) => {
 };
 
 function createCard(pokemon) {
-  const pokemonElm = document.createElement("button");
+  const pokemonElm = document.createElement("div");
+  // pokemonElm.onclick = showModal(pokemon);
   pokemonElm.className = "m-2 justify-content-center";
   pokemonElm.style = `width: 10rem; height: 10rem; border-color: ${
     colors[pokemon.id % 6].primaryColor
   }; border-width: 4px; background-color: ${
     colors[pokemon.id % 6].secondaryColor
   };`;
-  pokemonElm.type = "button";
-  // pokemonElm.onclick = showModal;
+  // pokemonElm.type = "button";
+  // pokemonElm.setAttribute("id", "modalBtn");
+  // pokemonElm.setAttribute("data-bs-toggle", "modal");
+  // pokemonElm.setAttribute("data-bs-target", "#exampleModal");
   pokemonElm.classList.add("pokemon");
 
   const pokeInnerHTML = `
-      <div class="p-2">
+      <div class="card p-2">
         <img src="${
           pokemon.sprites.other.home.front_default
         }" class="w-75 align-self-center" id="img" alt="pokemon">
-        <div class="justify-content-center text-center center">
+        <div class="card-body justify-content-center text-center center">
           <h5 class="fw-bold fs-6 text-center mt-1" style="color:${
             colors[pokemon.id % 6].primaryColor
           }">${pokemon.name.initCap()}</h5>
           <small class="text-center" style="color:${
             colors[pokemon.id % 6].primaryColor
           }";>Type: <span>${pokemon.types[0].type.name.initCap()}</span> </small>
-          <p>${pokemon.abilities.map((x) => {
-            return x.ability.name;
-          })}</p>
           </div>
       </div>
   `;
 
+  // const modalInnerHTML = `
+  //     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  //     <div class="modal-dialog">
+  //       <div class="modal-content">
+  //         <div class="modal-header">
+  //           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+  //           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  //         </div>
+  //         <div class="modal-body">
+  //           <h1>${pokemon.id}</h1>
+  //         </div>
+  //         <div class="modal-footer">
+  //           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  //           <button type="button" class="btn btn-primary">Save changes</button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // `;
+
   pokemonElm.innerHTML = pokeInnerHTML;
+  // pokemonElm.innerHTML = modalInnerHTML;
 
   cardContainer.appendChild(pokemonElm);
+  // document.body.append(modalInnerHTML);
+  // showModal(pokemon);
 }
 
 fetchPokemons();
 
+// // const modalContainer = document.getElementById("modalBtn");
+// let modalElm = null;
+// function showModal(pokemon) {
+//   if (modalElm !== null) {
+//     modalElm.remove();
+//   }
+
+//   const modalElm = document.createElement("div");
+//   // modalElm.classList.add("modal");
+
+//   const modalInnerHTML = `
+//       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+//       <div class="modal-dialog">
+//         <div class="modal-content">
+//           <div class="modal-header">
+//             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+//             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//           </div>
+//           <div class="modal-body">
+//             <h1>${pokemon.id}</h1>
+//           </div>
+//           <div class="modal-footer">
+//             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//             <button type="button" class="btn btn-primary">Save changes</button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   `;
+
+//   modalElm.innerHTML = modalInnerHTML;
+
+//   // modalContainer.appendChild(modalElm);
+//   document.body.append(modalElm);
+// }
+
 // let modalWrap = null;
-// const showModal = () => {
+// const showModal = (pokemon) => {
 //   if (modalWrap !== null) {
 //     modalWrap.remove();
 //   }
